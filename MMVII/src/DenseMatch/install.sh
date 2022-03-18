@@ -1,4 +1,4 @@
-!/usr/bin/env bash
+#!/usr/bin/env bash
 
 #Introduction: https://www.youtube.com/watch?v=N5vscPTWKOk
 
@@ -38,8 +38,13 @@ source ${THIS_ENV}/bin/activate
 #now the prompt shows: (python_env)
 cd ..
 
+REQUIREMENTS=`which requirements.txt`
+if [ ! -e "$REQUIREMENTS" ]; then
+    echo cannot find requirements.txt. update environment variable PATH and relaunch
+    exit 1
+fi
 #add modules to the env
-pip3 install -r requirements.txt
+pip3 install -r "$REQUIREMENTS"
 pip3 list
 
 #quit virtual env
