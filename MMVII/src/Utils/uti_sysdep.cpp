@@ -1,5 +1,4 @@
 #include "include/MMVII_all.h"
-#include <unistd.h>
 
 namespace MMVII
 {
@@ -69,6 +68,8 @@ int mmvii_GetPId()
     return _getpid();
 }
 #else
+#include <unistd.h>
+
 const std::string TheMMVII_SysName = "Steve's shit";
 int mmvii_GetPId()
 {
