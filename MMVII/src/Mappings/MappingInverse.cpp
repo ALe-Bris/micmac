@@ -736,7 +736,7 @@ template <class Type,const int Dim> void
      // 2- Make the extension to have point close to the frontier 
 
          // 2-1 Compute in grid pixel frontier :  reached pixel neighbor of unreached
-     for (const auto aPix : mMarker)
+     for ( auto aPix : mMarker)
      {
          if (mMarker.VI_GetV(aPix)== tU_INT1(eLabelIm::eReached))
          {
