@@ -1,3 +1,4 @@
+#include "StdAfx.h"
 #include "general/sys_dep.h"
 #include "general/errors.h"
 
