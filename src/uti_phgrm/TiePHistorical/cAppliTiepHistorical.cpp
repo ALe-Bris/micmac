@@ -36,7 +36,9 @@ English :
     See below and http://www.cecill.info.
 
 Header-MicMac-eLiSe-25/06/2007*/
-
+#include <iomanip>
+#include <chrono>
+#include <ctime>
 #include "TiePHistorical.h"
 
 
@@ -2053,8 +2055,14 @@ int MatchOneWay(std::vector<int>& matchIDL, std::vector<Siftator::SiftPoint> aVS
     int nEndR = nSizeR;
 
     std::time_t t1 = std::time(nullptr);
+    
+// put_time not defined on gcc 4.x
+#ifdef __GNUC__
+ #if __GNUC__ > 5
     std::cout << std::put_time(std::localtime(&t1), "%Y-%m-%d %H:%M:%S") << std::endl;
-
+ #endif
+#endif
+    
     long nSkiped = 0;
     float alpha = 2;
 
@@ -2163,7 +2171,14 @@ int MatchOneWay(std::vector<int>& matchIDL, std::vector<Siftator::SiftPoint> aVS
         //cout<<i<<" "<<nMatch<<endl;
     }
     std::time_t t2 = std::time(nullptr);
-    std::cout << std::put_time(std::localtime(&t2), "%Y-%m-%d %H:%M:%S") << std::endl;
+    
+    // put_time not defined on gcc 4.x
+    #ifdef __GNUC__
+     #if __GNUC__ > 5
+        std::cout << std::put_time(std::localtime(&t2), "%Y-%m-%d %H:%M:%S") << std::endl;
+     #endif
+    #endif
+    
     return nMatches;
 }
 
