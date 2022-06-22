@@ -152,6 +152,7 @@ using namespace std;
 #include "private/cElNuage3DMaille.h"
 #include "private/TraitRadiom.h"
 
+#include "private/initqtlibpath.h"
 
 //===================
 
