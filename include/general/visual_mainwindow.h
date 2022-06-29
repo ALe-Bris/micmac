@@ -4,6 +4,7 @@
 #include "general/CMake_defines.h"
 
 #if ELISE_QT
+#include "XML_GEN/ParamChantierPhotogram.h"
 
 #include "StdAfx.h"
 #include "saisieQT_window.h"

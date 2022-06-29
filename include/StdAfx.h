@@ -153,6 +153,7 @@ using namespace std;
 #include "private/TraitRadiom.h"
 
 #include "private/initqtlibpath.h"
+#include "general/visual_mainwindow.h"
 
 //===================
 
