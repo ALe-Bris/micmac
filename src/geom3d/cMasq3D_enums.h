@@ -37,8 +37,8 @@ English :
 
 Header-MicMac-eLiSe-25/06/2007*/
 
-
-
+#ifndef CMASQ3D_ENUM_H
+#define CMASQ3D_ENUM_H
 
 enum SELECTION_MODE { SUB_INSIDE,
                       ADD_INSIDE,
@@ -50,3 +50,4 @@ enum SELECTION_MODE { SUB_INSIDE,
                       SIZE_OF_SELECTION_MODE
                     };
 
+#endif
