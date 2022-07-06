@@ -713,9 +713,9 @@ template std::vector<cPtxd<TYPE,2> > RandomPtsOnCircle<TYPE>(int aNbPts);\
 template class cSegment2DCompiled<TYPE>;\
 template class  cAffin2D<TYPE>;
 
-template<> INSTANTIATE_GEOM_REAL(tREAL4)
-template<> INSTANTIATE_GEOM_REAL(tREAL8)
-template<> INSTANTIATE_GEOM_REAL(tREAL16)
+INSTANTIATE_GEOM_REAL(tREAL4)
+INSTANTIATE_GEOM_REAL(tREAL8)
+INSTANTIATE_GEOM_REAL(tREAL16)
 
 // MACRO_INSTANTIATE_GEOM2D_MAPPING(TYPE,cAffin2D<TYPE>,2);
 
