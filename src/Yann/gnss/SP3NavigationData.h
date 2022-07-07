@@ -1,13 +1,16 @@
 #ifndef SP3NAVIGATIONDATA_H
 #define SP3NAVIGATIONDATA_H
 
+
 #include "Utils.h"
 #include "GPSTime.h"
 #include "ECEFCoords.h"
 #include "SP3NavigationSlot.h"
 
-#include <vector>
-
+//in case Qt is included before
+#ifdef slots
+#undef slots
+#endif
 // ---------------------------------------------------------------
 // Classe contenant des données de navigation au format SP3
 // ---------------------------------------------------------------
@@ -25,7 +28,7 @@ class SP3NavigationData {
         bool hasEphemeris(std::string PRN);
 
         void setLagrangeOrder(int order){this->ORDER_LAGRANGE = order;}
-
+        SP3NavigationSlot _toto;
 		std::vector<SP3NavigationSlot> slots;
 
 		ECEFCoords computeSatellitePos(std::string, GPSTime, double);

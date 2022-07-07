@@ -1,7 +1,6 @@
 #ifndef GEOCOORDS_H
 #define GEOCOORDS_H
 
-#include <iostream>
 
 #include "Utils.h"
 #include "ENUCoords.h"

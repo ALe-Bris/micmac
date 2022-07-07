@@ -1,12 +1,10 @@
 #ifndef NAVIGATIONDATA_H
 #define NAVIGATIONDATA_H
 
-#include <string>
-#include <vector>
-
 #include "Utils.h"
 #include "NavigationSlot.h"
 
+class NavigationSlot;
 // ---------------------------------------------------------------
 // Classe contenant les données de navigation GPS
 // ---------------------------------------------------------------

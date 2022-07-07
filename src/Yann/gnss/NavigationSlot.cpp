@@ -3,6 +3,32 @@
 #include "NavigationSlot.h"
 #include "RinexReader.h"
 
+NavigationSlot::NavigationSlot():
+prn(0),
+sv_clock_bias(0.), sv_clock_drift(0.), sv_clock_drift_rate(0.),
+iode(0.), crs(0.), delta_n(0.), m0(0.),
+cuc(0.), ecc(0.), cus(0.), sqrt_a(0.),
+toe(0.), cic(0.), OMEGA(0.), cis(0.),
+i0(0.), crc(0.), omega(0.), OMEGA_DOT(0.),
+IDOT(0.), code_L2(0.), gps_week(0.), L2P(0.),
+sv_accuracy(0.), sv_health(0.), tgd(0.), iodc(0.){
+    
+}
+
+NavigationSlot::NavigationSlot(NavigationSlot const& ns):
+prn(ns.prn),
+sv_clock_bias(ns.sv_clock_bias), sv_clock_drift(ns.sv_clock_drift), sv_clock_drift_rate(ns.sv_clock_drift_rate),
+iode(ns.iode), crs(ns.crs), delta_n(ns.delta_n), m0(ns.m0),
+cuc(ns.cuc), ecc(ns.ecc), cus(ns.cus), sqrt_a(ns.sqrt_a),
+toe(ns.toe), cic(ns.cic), OMEGA(ns.OMEGA), cis(ns.cis),
+i0(ns.i0), crc(ns.crc), omega(ns.omega), OMEGA_DOT(ns.OMEGA_DOT),
+IDOT(ns.IDOT), code_L2(ns.code_L2), gps_week(ns.gps_week), L2P(ns.L2P),
+sv_accuracy(ns.sv_accuracy), sv_health(ns.sv_health), tgd(ns.tgd), iodc(ns.iodc),
+time(ns.time)
+{
+    
+}
+
 void NavigationSlot::fillLine(std::vector<double> val, int line_number){
 
 	switch (line_number){

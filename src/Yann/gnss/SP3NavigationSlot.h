@@ -5,9 +5,6 @@
 #include "GPSTime.h"
 #include "ECEFCoords.h"
 
-#include <string>
-#include <vector>
-
 // ---------------------------------------------------------------
 // Classe contenant un paquet de données de navigation SP3
 // ---------------------------------------------------------------
@@ -24,9 +21,11 @@ class SP3NavigationSlot {
 		std::vector<double> Z;
 		std::vector<double> T;
 
+    SP3NavigationSlot();
     SP3NavigationSlot(GPSTime time);
+    SP3NavigationSlot(SP3NavigationSlot const&);
 
-    void addData(std::string prn, double x, double y, double z, double t);
+    void addData(std::string const& prn, double x, double y, double z, double t);
 
 };
 

@@ -8,6 +8,12 @@
 #include <sstream>
 #include <stdio.h>
 #include <vector>
+#include <cstring>
+#include <cstdlib>
+#include <string>
+#include <time.h>
+#include <cmath>
+#include <vector>
 
 // ----------------------------------------------------
 // Paramètres globaux du programme

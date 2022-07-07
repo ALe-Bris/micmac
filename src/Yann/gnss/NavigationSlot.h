@@ -1,14 +1,6 @@
 #ifndef NAVIGATIONSLOT_H
 #define NAVIGATIONSLOT_H
 
-#include <string>
-#include <vector>
-#include <iostream>
-#include <cstring>
-#include <cstdlib>
-#include <stdio.h>
-#include <cmath>
-
 #include "Utils.h"
 #include "ECEFCoords.h"
 #include "GPSTime.h"
@@ -17,7 +9,7 @@
 // Classe contenant un paquet de données de navigation
 // ---------------------------------------------------------------
 class NavigationSlot {
-
+    protected:
 	int prn;
 	double sv_clock_bias, sv_clock_drift, sv_clock_drift_rate;
 	double iode, crs, delta_n, m0;
@@ -30,6 +22,8 @@ class NavigationSlot {
 	GPSTime time;
 
 	public:
+        NavigationSlot(NavigationSlot const& ns);
+        NavigationSlot();
 
 		// Accesseurs
 		int getPRN(){return this->prn;}

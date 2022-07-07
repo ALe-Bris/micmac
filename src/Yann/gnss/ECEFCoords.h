@@ -1,8 +1,6 @@
 #ifndef ECEFCOORDS_H
 #define ECEFCOORDS_H
 
-#include <string>
-#include <iostream>
 
 #include "Utils.h"
 #include "GeoCoords.h"

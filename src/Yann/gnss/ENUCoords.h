@@ -1,9 +1,6 @@
 #ifndef ENUCOORDS_H
 #define ENUCOORDS_H
 
-#include <cmath>
-#include <iostream>
-
 #include "Utils.h"
 #include "ECEFCoords.h"
 

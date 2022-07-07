@@ -54,8 +54,8 @@ class Observation {
 	
 	public:
 	
-		Observation(std::string satellite_name=""){
-			this->satellite_name = satellite_name;
+		Observation(std::string my_satellite_name=""){
+			this->satellite_name = my_satellite_name;
 		}
 	
 		// Accesseurs
@@ -126,8 +126,8 @@ class Observation {
 		void setD1_SGS(double d1_obs){this->d1_sgs=d1_obs;}
 		void setD2_SGS(double d2_obs){this->d2_sgs=d2_obs;}
 	
-		void setTimestamp(GPSTime timestamp){this->timestamp = timestamp;}
-		void setSatName(std::string satellite_name){this->satellite_name=satellite_name;}
+		void setTimestamp(GPSTime my_timestamp){this->timestamp = my_timestamp;}
+		void setSatName(std::string my_satellite_name){this->satellite_name=my_satellite_name;}
 
 		// Méthodes
 		void setChannel(std::string, double);
