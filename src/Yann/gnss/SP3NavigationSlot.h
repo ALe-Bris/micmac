@@ -5,6 +5,7 @@
 #include "GPSTime.h"
 #include "ECEFCoords.h"
 
+#include <string>
 #include <vector>
 
 // ---------------------------------------------------------------
@@ -23,13 +24,9 @@ class SP3NavigationSlot {
 		std::vector<double> Z;
 		std::vector<double> T;
 
-		SP3NavigationSlot(GPSTime time){
-			this->time = time;
-		}
+    SP3NavigationSlot(GPSTime time);
 
-		void addData(std::string prn, double x, double y, double z, double t){
-			PRN.push_back(prn); X.push_back(x); Y.push_back(y); Z.push_back(z); T.push_back(t);
-		}
+    void addData(std::string prn, double x, double y, double z, double t);
 
 };
 
