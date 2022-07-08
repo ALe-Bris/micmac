@@ -19,7 +19,7 @@ template <class Type,const int Dim> cSegment<Type,Dim>::cSegment(const tPt& aP1,
 template <class Type,const int Dim> void cSegment<Type,Dim>::CompileFoncLinear
                               (Type & aVal,tPt & aVec,const Type &aV1,const Type & aV2) const
 {
-	// return aV1 + (aV2-aV1) * Scal(mTgt,aP-this->mP1) / mN2;
+    // return aV1 + (aV2-aV1) * Scal(mTgt,aP-this->mP1) / mN2;
     tPt aV12 =  (mP2-mP1) ;
     aVec  =   aV12 * Type((aV2-aV1) /SqN2(aV12)) ;
     aVal = aV1  - Scal(aVec,mP1);
@@ -53,21 +53,21 @@ template <const int Dim> cPtxd<int,Dim> CalPEnd(const cPtxd<int,Dim> & aP0,const
 /*   cBorderPixBoxIterator    */
 /* ========================== */
 
-template <const int Dim>  
+template <const int Dim>
   cBorderPixBoxIterator<Dim>::cBorderPixBoxIterator(tBPB & aBPB,const  tPt & aP0) :
       cPixBoxIterator<Dim>  (aBPB.PB(),aP0),
       mBPB                  (&aBPB)
 {
 }
 
-template <const int Dim>  
+template <const int Dim>
   cBorderPixBoxIterator<Dim>  & cBorderPixBoxIterator<Dim>::operator ++(int)
 {
    return ++(*this);
 }
 
 
-template <const int Dim>  
+template <const int Dim>
   cBorderPixBoxIterator<Dim>  & cBorderPixBoxIterator<Dim>::operator ++()
 {
     //cPixBoxIterator<Dim>::operator ++ ();
@@ -84,7 +84,7 @@ template <const int Dim>
 /* ========================== */
 
 
-template <const int Dim>  
+template <const int Dim>
   cBorderPixBox<Dim>::cBorderPixBox(const tPB & aPB,const tPt & aSz) :
     mPB     (aPB),
     mSz     (aSz),
@@ -95,13 +95,13 @@ template <const int Dim>
     mEnd    (*this,CalPEnd(mPB.P0(),mPB.P1()))
 {
 }
-template <const int Dim>  
+template <const int Dim>
   cBorderPixBox<Dim>::cBorderPixBox(const tPB & aPB,int aSz) :
       cBorderPixBox<Dim>(aPB,tPt::PCste(aSz))
 {
 }
 
-template <const int Dim>  
+template <const int Dim>
   cBorderPixBox<Dim>::cBorderPixBox(const cBorderPixBox<Dim> & aBPB) :
     cBorderPixBox<Dim>(mPB,mSz)
 {
@@ -253,7 +253,7 @@ template <class Type,const int Dim> cPtxd<Type,Dim>
 }
 
 
-template <class Type,const int Dim> cPtxd<Type,Dim>  
+template <class Type,const int Dim> cPtxd<Type,Dim>
       cPtxd<Type,Dim>::PRandUnitDiff(const cPtxd<Type,Dim>& aP0,const Type & aDist)
 {
    cPtxd<Type,Dim> aRes = PRandUnit();
@@ -263,7 +263,7 @@ template <class Type,const int Dim> cPtxd<Type,Dim>
 }
 
 
-template <class Type,const int Dim> 
+template <class Type,const int Dim>
    typename cPtxd<Type,Dim>::tBigNum cPtxd<Type,Dim>::MinSqN2(const std::vector<tPt> & aVecPts,bool SVP) const
 {
    if (aVecPts.empty())
@@ -278,7 +278,7 @@ template <class Type,const int Dim>
 }
 
 
-template <class Type,const int Dim> double NormK(const cPtxd<Type,Dim> & aPt,double anExp) 
+template <class Type,const int Dim> double NormK(const cPtxd<Type,Dim> & aPt,double anExp)
 {
    double aRes = pow(std::abs(aPt[0]),anExp);
    for (int aD=1 ; aD<Dim; aD++)
@@ -319,7 +319,7 @@ template <class Type,const int Dim> Type MinAbsCoord(const cPtxd<Type,Dim> & aPt
 }
 
 
-template <class T,const int Dim>  
+template <class T,const int Dim>
    typename  tNumTrait<T>::tBig Scal(const cPtxd<T,Dim> &aP1,const cPtxd<T,Dim> & aP2)
 {
    typename tNumTrait<T>::tBig  aRes = aP1[0]*aP2[0];
@@ -600,7 +600,7 @@ template <const int Dim>  cPtxd<int,Dim>  cParseBoxInOut<Dim>::Index2Glob(const 
 
 template <const int Dim>  cPixBox<Dim> cParseBoxInOut<Dim>::BoxOut(const tPt & anIndex) const
 {
-      return  cPixBox<Dim> 
+      return  cPixBox<Dim>
               (
                    Index2Glob(anIndex),
                    Index2Glob(anIndex+tPt::PCste(1))
@@ -631,7 +631,7 @@ template <const int Dim>  cPixBox<Dim> cParseBoxInOut<Dim>::BoxIn(const tPt & an
 /* ========================== */
 
 
-template <class Type,const int Dim>   
+template <class Type,const int Dim>
    cTplBox<Type,Dim>::cTplBox
    (
        const cPtxd<Type,Dim> & aP0,
@@ -665,7 +665,7 @@ template <class Type,const int Dim>
     }
 }
 
-template <class Type,const int Dim>   
+template <class Type,const int Dim>
    cTplBox<Type,Dim>::cTplBox
    (
        const cPtxd<Type,Dim> & aSz,
@@ -686,13 +686,13 @@ template <class Type,const int Dim> cTplBox<Type,Dim>  cTplBox<Type,Dim>::Empty(
    return  cTplBox<Type,Dim>(tPt::PCste(0),true);
 }
 
-template <class Type,const int Dim> 
+template <class Type,const int Dim>
    cTplBox<Type,Dim>  cTplBox<Type,Dim>::FromVect(const tPt * aBegin,const tPt * aEnd,bool AllowEmpty)
 {
     return cTplBoxOfPts<Type,Dim>::FromVect(aBegin,aEnd).CurBox(AllowEmpty);
 }
 
-template <class Type,const int Dim> 
+template <class Type,const int Dim>
    cTplBox<Type,Dim>  cTplBox<Type,Dim>::FromVect(const std::vector<tPt>& aVect,bool AllowEmpty)
 {
     return cTplBoxOfPts<Type,Dim>::FromVect(aVect).CurBox(AllowEmpty);
@@ -705,7 +705,7 @@ template <class Type,const int Dim> cTplBox<Type,Dim>  cTplBox<Type,Dim>::Inter(
 
 template <class Type,const int Dim> cTplBox<Type,Dim>  cTplBox<Type,Dim>::Sup(const tBox & aB2)const
 {
-  if (IsEmpty() && aB2.IsEmpty()) 
+  if (IsEmpty() && aB2.IsEmpty())
      return  Empty();
   if (IsEmpty())     return aB2;
   if (aB2.IsEmpty()) return *this;
@@ -745,7 +745,7 @@ template <class Type,const int Dim> void cTplBox<Type,Dim>::AssertSameSz(const c
 }
 
 
-template <class Type,const int Dim> bool cTplBox<Type,Dim>::operator == (const tBox & aR2) const 
+template <class Type,const int Dim> bool cTplBox<Type,Dim>::operator == (const tBox & aR2) const
 {
     return (mP0==aR2.mP0) && (mP1==aR2.mP1);
 }
@@ -761,9 +761,9 @@ template <class Type,const int Dim> cTplBox<Type,Dim> cTplBox<Type,Dim>::Transla
 }
 
 
-template <class Type,const int Dim> cPtxd<Type,Dim>  cTplBox<Type,Dim>::FromNormaliseCoord(const cPtxd<double,Dim> & aPN) const 
+template <class Type,const int Dim> cPtxd<Type,Dim>  cTplBox<Type,Dim>::FromNormaliseCoord(const cPtxd<double,Dim> & aPN) const
 {
-    // MMVII_INTERNAL_ASSERT_strong(false,"To Change 
+    // MMVII_INTERNAL_ASSERT_strong(false,"To Change
     cPtxd<Type,Dim> aRes;
     for (int aK=0 ; aK<Dim ; aK++)
     {
@@ -785,7 +785,7 @@ template <class Type,const int Dim> void  cTplBox<Type,Dim>::Corners(tCorner & a
     }
 }
 
-template <class Type,const int Dim> cPtxd<double,Dim>  cTplBox<Type,Dim>::ToNormaliseCoord(const cPtxd<Type,Dim> & aP) const 
+template <class Type,const int Dim> cPtxd<double,Dim>  cTplBox<Type,Dim>::ToNormaliseCoord(const cPtxd<Type,Dim> & aP) const
 {
     cPtxd<double,Dim> aRes;
     for (int aK=0 ; aK<Dim ; aK++)
@@ -796,7 +796,7 @@ template <class Type,const int Dim> cPtxd<double,Dim>  cTplBox<Type,Dim>::ToNorm
 }
 
 
-template <class Type,const int Dim>  cPtxd<double,Dim>  cTplBox<Type,Dim>::RandomNormalised() 
+template <class Type,const int Dim>  cPtxd<double,Dim>  cTplBox<Type,Dim>::RandomNormalised()
 {
    cPtxd<double,Dim>  aRes;
    for (int aK=0 ; aK<Dim ; aK++)
@@ -862,9 +862,9 @@ cBox2dr operator * (const cBox2dr & aBox,double aScale)
 }
 
 //        x0,y1        x1,y1
-//        x0,y0        x1,y0     
+//        x0,y0        x1,y0
 
-template <class Type> 
+template <class Type>
     void CornersTrigo(typename cTplBox<Type,2>::tCorner & aRes,const  cTplBox<Type,2>& aBox)
 {
    aRes[0] = cPtxd<Type,2>(aBox.P1().x(),aBox.P1().y());
@@ -887,7 +887,7 @@ template <class Type,const int Dim>   cTplBoxOfPts<Type,Dim>::cTplBoxOfPts() :
 {
 }
 
-template <class Type,const int Dim> 
+template <class Type,const int Dim>
    cTplBoxOfPts<Type,Dim>  cTplBoxOfPts<Type,Dim>::FromVect(const tPt * aBegin,const tPt * aEnd)
 {
    cTplBoxOfPts<Type,Dim> aRes;
@@ -895,7 +895,7 @@ template <class Type,const int Dim>
        aRes.Add(*aPtrP);
    return  aRes;
 }
-template <class Type,const int Dim> 
+template <class Type,const int Dim>
    cTplBoxOfPts<Type,Dim>  cTplBoxOfPts<Type,Dim>::FromVect(const std::vector<tPt>& aVect)
 {
    return FromVect(aVect.data(),aVect.data()+aVect.size());
@@ -954,7 +954,7 @@ template <class Type,const int Dim>  cPtxd<int,Dim> Pt_round_ni(const cPtxd<Type
 template <class Type> bool WindInside4BL(const cBox2di & aBox,const cPtxd<Type,2> & aPt,const  cPt2di & aSzW)
 {
    return
-	   (aPt.x() >= aBox.P0().x() + aSzW.x())
+       (aPt.x() >= aBox.P0().x() + aSzW.x())
        &&  (aPt.y() >= aBox.P0().y() + aSzW.y())
        &&  (aPt.x() <  aBox.P1().x() - aSzW.x()-1)
        &&  (aPt.y() <  aBox.P1().y() - aSzW.y()-1) ;
@@ -963,7 +963,7 @@ template <class Type> bool WindInside4BL(const cBox2di & aBox,const cPtxd<Type,2
 template <class Type> bool WindInside(const cBox2di & aBox,const cPt2di & aPt,const  cPt2di & aSzW)
 {
    return
-	   (aPt.x() >= aBox.P0().x() + aSzW.x())
+       (aPt.x() >= aBox.P0().x() + aSzW.x())
        &&  (aPt.y() >= aBox.P0().y() + aSzW.y())
        &&  (aPt.x() <  aBox.P1().x() - aSzW.x())
        &&  (aPt.y() <  aBox.P1().y() - aSzW.y()) ;
@@ -977,12 +977,12 @@ template <class Type> bool WindInside(const cBox2di & aBox,const cPt2di & aPt,co
 /*
 template <const int Dim>  cTplBox<tREAL8,Dim> ToR(const  cTplBox<int,Dim> & aBox)
 {
-	 return cTplBox<tREAL8,Dim>(ToR(aBox.P0()),ToR(aBox.P1()));
+     return cTplBox<tREAL8,Dim>(ToR(aBox.P0()),ToR(aBox.P1()));
 }
 
 template <const int Dim>  cTplBox<int,Dim> ToI(const  cTplBox<tREAL8,Dim> & aBox)
 {
-	 return cTplBox<int,Dim>(ToI(aBox.P0()),ToI(aBox.P1()));
+     return cTplBox<int,Dim>(ToI(aBox.P0()),ToI(aBox.P1()));
 }
 */
 
@@ -990,7 +990,7 @@ template <const int Dim>  cTplBox<int,Dim> ToI(const  cTplBox<tREAL8,Dim> & aBox
 /*       INSTANTIATION        */
 /* ========================== */
 
-	/*
+/*
 template   cTplBox<tREAL8,2> ToR(const  cTplBox<int,2> & aBox);
 template   cTplBox<tREAL8,3> ToR(const  cTplBox<int,3> & aBox);
 template   cTplBox<int,2> ToI(const  cTplBox<tREAL8,2> & aBox);
@@ -1064,27 +1064,27 @@ template  cPtxd<TYPE,DIM>  cPtxd<TYPE,DIM>::FromPtInt(const cPtxd<int,DIM> & aPI
 
 // template  cPtxd<TYPE,DIM>  PCste(const DIM & aVal);
 
-#define MACRO_INSTANTIATE_POINT(DIM)\
-MACRO_INSTANTIATE_PTXD(tINT4,DIM)\
-MACRO_INSTANTIATE_PTXD(tREAL4,DIM)\
-MACRO_INSTANTIATE_PTXD(tREAL8,DIM)\
-MACRO_INSTANTIATE_PTXD(tREAL16,DIM)
+#define MACRO_INSTATIATE_POINT(DIM)\
+MACRO_INSTATIATE_PTXD(tINT4,DIM)\
+MACRO_INSTATIATE_PTXD(tREAL4,DIM)\
+MACRO_INSTATIATE_PTXD(tREAL8,DIM)\
+MACRO_INSTATIATE_PTXD(tREAL16,DIM)
 
 
-#define MACRO_INSTANTIATE_ROUNDPT(TYPE,DIM)\
+#define MACRO_INSTATIATE_ROUNDPT(TYPE,DIM)\
 template cPtxd<int,DIM> Pt_round_down(const cPtxd<TYPE,DIM>&  aP);\
 template cPtxd<int,DIM> Pt_round_up(const cPtxd<TYPE,DIM>&  aP);\
 template cPtxd<int,DIM> Pt_round_ni(const cPtxd<TYPE,DIM>&  aP);\
 
 
-#define MACRO_INSTANTIATE_PRECT_DIM(DIM)\
-MACRO_INSTANTIATE_POINT(DIM)\
+#define MACRO_INSTATIATE_PRECT_DIM(DIM)\
+MACRO_INSTATIATE_POINT(DIM)\
 template const std::vector<std::vector<cPtxd<int,DIM>>> & TabGrowNeigh(int);\
 template const std::vector<cPtxd<int,DIM>> & AllocNeighbourhood(int);\
-MACRO_INSTANTIATE_ROUNDPT(tINT4,DIM)\
-MACRO_INSTANTIATE_ROUNDPT(tREAL4,DIM)\
-MACRO_INSTANTIATE_ROUNDPT(tREAL8,DIM)\
-MACRO_INSTANTIATE_ROUNDPT(tREAL16,DIM)\
+MACRO_INSTATIATE_ROUNDPT(tINT4,DIM)\
+MACRO_INSTATIATE_ROUNDPT(tREAL4,DIM)\
+MACRO_INSTATIATE_ROUNDPT(tREAL8,DIM)\
+MACRO_INSTATIATE_ROUNDPT(tREAL16,DIM)\
 template class cBorderPixBoxIterator<DIM>;\
 template class cBorderPixBox<DIM>;\
 template class cTplBox<tINT4,DIM>;\
@@ -1109,10 +1109,10 @@ void F()
 }
 */
 
-MACRO_INSTANTIATE_PRECT_DIM(1)
-MACRO_INSTANTIATE_PRECT_DIM(2)
-MACRO_INSTANTIATE_PRECT_DIM(3)
-MACRO_INSTANTIATE_POINT(4)
+MACRO_INSTATIATE_PRECT_DIM(1)
+MACRO_INSTATIATE_PRECT_DIM(2)
+MACRO_INSTATIATE_PRECT_DIM(3)
+MACRO_INSTATIATE_POINT(4)
 
 
 
