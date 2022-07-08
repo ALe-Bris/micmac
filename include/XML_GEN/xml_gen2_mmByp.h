@@ -36,7 +36,7 @@ English :
     See below and http://www.cecill.info.
 
 Header-MicMac-eLiSe-25/06/2007*/
-
+#include "XML_GEN/all.h"
 
 #ifndef _ELISE_XML_GEN_MMBY_P_
 #define _ELISE_XML_GEN_MMBY_P_

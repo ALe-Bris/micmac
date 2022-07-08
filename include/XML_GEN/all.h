@@ -89,7 +89,11 @@ Header-MicMac-eLiSe-25/06/2007*/
 #ifndef _ELISE_XML_GEN_ALL_H
 #define _ELISE_XML_GEN_ALL_H
 
-#include "StdAfx.h"
+#include <string>
+
+#include "general/util.h"
+#include "XML_GEN/ParamChantierPhotogram.h"
+#include "XML_GEN/SuperposImage.h"
 
 // #include "XML_GEN/ParamChantierPhotogram.h"
 // #include "XML_GEN/SuperposImage.h"
