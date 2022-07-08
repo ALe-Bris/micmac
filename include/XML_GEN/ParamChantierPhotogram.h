@@ -1,4 +1,4 @@
-//#include "StdAfx.h"
+#include "StdAfx.h"
 //#include "general/all.h"
 //#include "private/all.h"
 #ifndef Define_NotPCP
