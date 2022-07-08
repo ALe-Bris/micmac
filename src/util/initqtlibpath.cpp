@@ -1,4 +1,7 @@
 #if ELISE_QT
+
+    #include "private/initqtlibpath.h"
+
     #ifdef Int
         #undef Int
     #endif

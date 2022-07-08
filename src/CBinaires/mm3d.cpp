@@ -39,6 +39,10 @@ Header-MicMac-eLiSe-25/06/2007*/
 
 #include "StdAfx.h"
 
+#if ELISE_QT
+    #include "private/initqtlibpath.h"
+#endif
+
 #define DEF_OFSET -12349876
 
 int Recover_Main(int argc, char ** argv);
