@@ -1,3 +1,4 @@
+#include "XML_GEN/all.h"
 #if ELISE_QT
     #ifdef Int
         #undef Int

@@ -155,7 +155,10 @@ endif()
 set(libElise elise)
 
 # CONSTRUCTION : Lib ELISE
+message ("[debug] Elise_Src_Files: ${Elise_Src_Files}")
+
 if(${CUDA_ENABLED})
+    message ("CUDA_ENABLED: ${CUDA_ENABLED}")
     include(GpGpu.cmake)
 
     cuda_add_library( ${libElise} ${Elise_Src_Files} ${IncFiles} ${QT_ALLFILES} OPTIONS ${GENCODE_SM})
