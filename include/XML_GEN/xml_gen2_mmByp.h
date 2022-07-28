@@ -17,12 +17,12 @@
     (With Special Emphasis on Small Satellites), Ankara, Turquie, 02-2006.
 
 [2] M. Pierrot-Deseilligny, "MicMac, un lociel de mise en correspondance
-    d'images, adapte au contexte geograhique" to appears in 
+    d'images, adapte au contexte geograhique" to appears in
     Bulletin d'information de l'Institut Geographique National, 2007.
 
 Francais :
 
-   MicMac est un logiciel de mise en correspondance d'image adapte 
+   MicMac est un logiciel de mise en correspondance d'image adapte
    au contexte de recherche en information geographique. Il s'appuie sur
    la bibliotheque de manipulation d'image eLiSe. Il est distibue sous la
    licences Cecill-B.  Voir en bas de fichier et  http://www.cecill.info.
@@ -36,7 +36,9 @@ English :
     See below and http://www.cecill.info.
 
 Header-MicMac-eLiSe-25/06/2007*/
-#include "XML_GEN/all.h"
+#include "XML_GEN/cInterfChantierNameManipulateur.h"
+
+#include <string>
 
 #ifndef _ELISE_XML_GEN_MMBY_P_
 #define _ELISE_XML_GEN_MMBY_P_
@@ -75,6 +77,7 @@ const std::string & ExtXml(bool Bin);
 class cImaMM;
 class cAppliWithSetImage;
 class cAppliMMByPair;
+
 
 class cAttrSomAWSI
 {
@@ -194,8 +197,8 @@ class cAppliWithSetImage
 
       static const int  TheFlagDev8BGray      = 1;
       static const int  TheFlagDev16BGray     = 2;
-      static const int  TheFlagNoOri          = 4;  
-      static const int  TheFlagAcceptProblem  = 8;  
+      static const int  TheFlagNoOri          = 4;
+      static const int  TheFlagAcceptProblem  = 8;
       static const int  TheFlagDev8BCoul      = 16;
       static const int  TheFlagDevXml         = 32;
   
@@ -216,7 +219,7 @@ class cAppliWithSetImage
       bool CAWSI_AcceptIm(const std::string & aName) const;
       bool CAWSI_AcceptCpleIm(const std::string & aN1,const std::string &  aN2) const;
       
-      // Si AnalysConexion = false, revoit juste le SET 
+      // Si AnalysConexion = false, revoit juste le SET
       void FilterImageIsolated(bool AnalysConexions=true);
       void Develop(bool EnGray,bool En16B);
       bool MasterSelected(const std::string & aName) const;
@@ -414,7 +417,7 @@ correspondances d'images pour la reconstruction du relief.
 Ce logiciel est régi par la licence CeCILL-B soumise au droit français et
 respectant les principes de diffusion des logiciels libres. Vous pouvez
 utiliser, modifier et/ou redistribuer ce programme sous les conditions
-de la licence CeCILL-B telle que diffusée par le CEA, le CNRS et l'INRIA 
+de la licence CeCILL-B telle que diffusée par le CEA, le CNRS et l'INRIA
 sur le site "http://www.cecill.info".
 
 En contrepartie de l'accessibilité au code source et des droits de copie,
@@ -425,16 +428,16 @@ titulaire des droits patrimoniaux et les concédants successifs.
 
 A cet égard  l'attention de l'utilisateur est attirée sur les risques
 associés au chargement,  à l'utilisation,  à la modification et/ou au
-développement et à la reproduction du logiciel par l'utilisateur étant 
-donné sa spécificité de logiciel libre, qui peut le rendre complexe à 
+développement et à la reproduction du logiciel par l'utilisateur étant
+donné sa spécificité de logiciel libre, qui peut le rendre complexe à
 manipuler et qui le réserve donc à des développeurs et des professionnels
 avertis possédant  des  connaissances  informatiques approfondies.  Les
 utilisateurs sont donc invités à charger  et  tester  l'adéquation  du
 logiciel à leurs besoins dans des conditions permettant d'assurer la
-sécurité de leurs systèmes et ou de leurs données et, plus généralement, 
-à l'utiliser et l'exploiter dans les mêmes conditions de sécurité. 
+sécurité de leurs systèmes et ou de leurs données et, plus généralement,
+à l'utiliser et l'exploiter dans les mêmes conditions de sécurité.
 
-Le fait que vous puissiez accéder à cet en-tête signifie que vous avez 
+Le fait que vous puissiez accéder à cet en-tête signifie que vous avez
 pris connaissance de la licence CeCILL-B, et que vous en avez accepté les
 termes.
 Footer-MicMac-eLiSe-25/06/2007*/

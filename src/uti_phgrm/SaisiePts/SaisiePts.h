@@ -41,6 +41,7 @@ Header-MicMac-eLiSe-25/06/2007*/
 #ifndef _ELISE_SAISIEPTS_ALL_H_
 #define _ELISE_SAISIEPTS_ALL_H_
 
+//#include "StdAfx.h"
 #include "XML_GEN/all.h"
 #include "cParamSaisiePts.h"
 
@@ -52,6 +53,10 @@ class cAppli_SaisiePts;
 class cSP_PointeImage;
 class cSP_PointGlob;
 class cCaseNamePoint;
+class cMMByImNM;
+class cMasqBin3D;
+class cInterfChantierNameManipulateur;
+template <class Type> class  cResultSubstAndStdGetFile;
 
 typedef enum
 {
@@ -427,7 +432,7 @@ public :
     {
 /*
    MPD : Inutile, c'est le mode RollW qui gere cela (et dans ce cas les image les plus anciennes
-         sont prioritaire 
+         sont prioritaire
         if (mIntf)
         {
             if (mIntf->isDisplayed(aI2) && (! mIntf->isDisplayed(aI1)))
@@ -512,6 +517,7 @@ private:
 };
 #endif
 
+//class cResultSubstAndStdGetFile;
 
 class cAppli_SaisiePts
 {
@@ -570,7 +576,7 @@ class cAppli_SaisiePts
     bool                ChangeName(std::string  anOldName,std::string  aNewName);
 
     cVirtualInterface * Interface() { return mInterface; }
-    void 				RedrawAllWindows () { if (mInterface) mInterface->RedrawAllWindows();}
+    void                 RedrawAllWindows () { if (mInterface) mInterface->RedrawAllWindows();}
 
     void                SetInterface( cVirtualInterface * interf );
 
