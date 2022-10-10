@@ -50,8 +50,7 @@ extern cSpecMMVII_Appli  TheSpecTestCovProp;
 extern cSpecMMVII_Appli  TheSpec_OriConvV1V2; 
 extern cSpecMMVII_Appli  TheSpecMeshCheck; 
 extern cSpecMMVII_Appli  TheSpecProMeshImage; 
-
-
+extern cSpecMMVII_Appli  TheSpecGenGui;
 };
 
 #endif  //  _MMVII_DeclareAllCmd_H_
