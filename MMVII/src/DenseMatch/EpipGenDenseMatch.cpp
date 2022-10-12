@@ -910,9 +910,11 @@ int cAppli::Exe()
 
    for (int aLevel = mNbLevel ; aLevel>=0 ; aLevel--)
    {
+       StdOut() << "Exe MatchOneLevel "<<aLevel<<"\n";
         MatchOneLevel(aLevel);
+       StdOut() << "Exe MatchOneLevel "<<aLevel<<" END \n";
    }
-
+    StdOut() << "Exe EXIT_SUCCESS \n";
    return EXIT_SUCCESS;
 }
 
@@ -923,6 +925,8 @@ cAppliBenchAnswer cAppli::BenchAnswer() const
 
 int  cAppli::ExecuteBench(cParamExeBench & aParam) 
 {
+    StdOut() << "ExecuteBench START\n";
+
    // As it is quite long and not randomized, dont do it each time
    if (aParam.Level() != 3) 
       return EXIT_SUCCESS;
@@ -941,6 +945,7 @@ int  cAppli::ExecuteBench(cParamExeBench & aParam)
 
    MMVII_INTERNAL_ASSERT_bench(aDif==0,"DenseMatchEpipGen : result != ref");
 
+    StdOut() << "ExecuteBench EXIT_SUCCESS\n";
 
    return EXIT_SUCCESS;
 }
