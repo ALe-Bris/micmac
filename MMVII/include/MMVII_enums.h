@@ -47,6 +47,7 @@ enum class eTA2007
                 Tuning,        ///< Used for testing/tuning command but not targeted for user
                 HDV,           ///< Has Default Value, will be printed on help
                 ISizeV,        ///< Interval size vect, print on help
+                Range,         ///< Range of allowed numerical values: "[min,max]" | "[min,]" | "[,max]"
                 eNbVals        ///< Tag for number of value
            };
 
