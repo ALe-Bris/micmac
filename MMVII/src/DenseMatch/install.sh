@@ -1,47 +1,117 @@
-!/usr/bin/env bash
+#!/usr/bin/env bash
 
 #Introduction: https://www.youtube.com/watch?v=N5vscPTWKOk
 
-PYTHON_ENV=python_env
-THIS_ENV=psmnet_env
+export OLD_DIR=`pwd`
+cd "$(dirname "${BASH_SOURCE[0]}")"
 
-MODELPATH=models/finetune_PSMnet.tar
+. ./setenvconda.sh
+force_download=0
+force_reinstall=0
+SET_PYTHON_ENV=1
 
 
-#dependances
-pip3 install virtualenv 
-pip3 install wget
+set PYTHON
+if [[ "$SET_PYTHON_ENV" == 1 ]]; then
+    if [ "$PYTHONHOME" != "" ]; then
+        PATH=$PYTHONHOME/bin:$PATH
+    fi
+    echo PATH: $PATH
+    PYTHON=`which python$PYTHON_VERSION`
+    PIP=`which pip$PYTHON_VERSION`
+    echo PYTHON=$PYTHON
+    PYTHONHOME=
+    PYTHONPATH="$(dirname "$PYTHON")"
+    PYTHON_CONFIG=$PYTHONPATH/python$PYTHON_VERSION-config
+    export PYTHONHOME=`$PYTHON_CONFIG --exec-prefix`
+    echo PYTHONHOME reset to $PYTHONHOME
+else
+    PYTHON=`which python$PYTHON_VERSION`
+    PIP=`which pip$PYTHON_VERSION`
+fi
 
-#clone PSMNet
-git clone https://github.com/erupnik/PSMNet.git
-cd PSMNet
+echo PYTHON=$PYTHON
+echo PIP=$PIP
+echo PATH=$PATH
 
-#create new branch 'test', resetted to initial commit
-git checkout -b test
-git reset --hard 9ba1e36903f3ba2c99e5be8f03d31d2751a2cb33
+echo "which PYTHON="`which python`
+echo "which PIP="`which pip`
+echo "which virtualenv="`which virtualenv`
+
+# clone PSMNet
+if [ ! -d PSMNet ]; then
+    echo clone PSMNet
+    echo "cloning PSMNET..."
+    git clone $PSMNET_ROOT
+    # create new branch 'test'
+    git checkout -b test
+fi
+
+cd $MODEL_FOLDER
+
+# reset to initial commit
+git branch
+
+if [[ "`git branch`" == *"test"* ]]; then
+    git checkout  test
+else
+    git checkout -b test
+fi
+
+git reset --hard $PSMNET_HASH
 
 #download a trained model
-#wget https://drive.google.com/uc?id=16acK5nqgglNSBhCmvqEmhOZQwChNOm2n -O ${MODELPATH}
-wget https://drive.google.com/uc?id=1JzVwoUuCdXfKmB26rPyV3vISRqgOUZxj -O ${MODELPATH}
+if [ "$force_reinstall" == 1 ]; then
+    conda deactivate ${CONDA_ENV}
+    conda create --name -p python$PYTHON_VERSION ${CONDA_ENV}
+    if [ -d models ]; then
+        rm -rf models
+    fi
+fi
 
-#create dir to store virtual env
-cd ..
-mkdir ${PYTHON_ENV}
-cd ${PYTHON_ENV}
+if [ ! -e "$DEFAULTMODELPATH" ]; then
+    echo get default trained model
+    wget "$MODEL_URL" -O ${DEFAULTMODELPATH}
+fi
 
 #create a new virtualenv named psmnet_env
-virtualenv -p python3 ${THIS_ENV}
+echo create/activate the environment conda $CONDA_ENV
 
-#enter new virtual env
-echo source ${THIS_ENV}/bin/activate
-source ${THIS_ENV}/bin/activate
-#now the prompt shows: (python_env)
+if [ "$force_reinstall" == 1 ]; then
+    conda remove --name $CONDA_ENV --all
+fi
+
+conda create --yes --name ${CONDA_ENV} python=$PYTHON_VERSION
+conda activate ${CONDA_ENV}
+
+echo PYTHONPATH=$PYTHONPATH
+echo PYTHONHOME=$PYTHONHOME
+
 cd ..
 
+OLD_DIR=`pwd`
+cd "$(dirname "${BASH_SOURCE[0]}")"
+SCRIPTPATH="`pwd`"
+PATH=$SCRIPTPATH:$PATH
+cd $OLD_DIR
+
+REQUIREMENTS=`which requirements.txt`
+if [ ! -e "$REQUIREMENTS" ]; then
+    echo cannot find requirements.txt. update environment variable PATH and relaunch
+    exit 1
+fi
+
 #add modules to the env
-pip3 install -r requirements.txt
-pip3 list
+echo install requirements
 
-#quit virtual env
-deactivate
+pip install -r "$REQUIREMENTS"  # > /dev/null 2>&1
 
+if [ $? -eq 0 ]; then
+    echo python extra modules installed
+else
+    echo pip install has failed. Exiting
+    # echo Exiting
+    #exit 1
+fi
+
+cd $OLD_DIR
