@@ -64,6 +64,7 @@ cCommonAppliSat3D::cCommonAppliSat3D() :
 	mMMVII_SzTile(Pt2di(1024,1024)),
     mMMVII_SzOverL(Pt2di(50,30)),
         mMMVII_NbProc(8),
+    mMMVII_RootPath(""),
         //mZoomF(1),
 	//mHasVeg(true),
 	//mHasSBG(false),
@@ -130,7 +131,8 @@ cCommonAppliSat3D::cCommonAppliSat3D() :
             << EAM(mMMVII_ImName,"MMVII_ImName",true,"Image matching: if MMVII==1, name of depth map")
             << EAM(mMMVII_SzTile,"MMVII_SzTile",true,"Image matching: if MMVII==1, Size of tiling used to split computation, Def=[1024,1024]")
             << EAM(mMMVII_SzOverL,"MMVII_SzOverL",true,"Image matching: if MMVII==1, Size of overlap between tiles ,[Default=[50,30]")
-            << EAM(mMMVII_NbProc,"MMVII_NbProc",true,"Image matching: if MMVII==1, Nb of cores for II processing in MMVII, Def=8");
+            << EAM(mMMVII_NbProc,"MMVII_NbProc",true,"Image matching: if MMVII==1, Nb of cores for II processing in MMVII, Def=8")
+            << EAM(mMMVII_RootPath,"MMVII_RootPath","","root path to MMVII folder, default: compilation folder micmac/MMVII");
 
 	*mArgFuse
 			<< EAM(mEZA,"EZA",true,"Image matching: Export Z absolute (Def=false)")
@@ -232,7 +234,8 @@ std::string cCommonAppliSat3D::ComParamMatch()
         if (EAMIsInit(&mMMVII_ImName))  aCom += BLANK + "MMVII_ImName=" + mMMVII_ImName;
 	    if (EAMIsInit(&mMMVII_SzTile))  aCom += BLANK + "MMVII_SzTile=" + ToString(mMMVII_SzTile);
 	    if (EAMIsInit(&mMMVII_SzOverL)) aCom += BLANK + "MMVII_SzOverL=" + ToString(mMMVII_SzOverL);
-        if (EAMIsInit(&mMMVII_NbProc))  aCom += BLANK + "MMVII_NbProc=" + ToString(mMMVII_NbProc); 
+        if (EAMIsInit(&mMMVII_NbProc))  aCom += BLANK + "MMVII_NbProc=" + ToString(mMMVII_NbProc);
+        if (EAMIsInit(&mMMVII_RootPath))  aCom += BLANK + "MMVII_RootPath=" + ToString(mMMVII_RootPath);
     }
     else
     {
@@ -607,6 +610,7 @@ cAppliMM1P::cAppliMM1P(int argc, char** argv)
                                                      + ((EAMIsInit(&mCAS3D.mMMVII_SzTile)) ? (BLANK + "SzTile=" + ToString(mCAS3D.mMMVII_SzTile)) : "") 
 	                                                 + ((EAMIsInit(&mCAS3D.mMMVII_SzOverL))? (BLANK + "SzOverL=" + ToString(mCAS3D.mMMVII_SzOverL)) : "")
                                                      + ((EAMIsInit(&mCAS3D.mMMVII_NbProc)) ? (BLANK + "NbProc=" + ToString(mCAS3D.mMMVII_NbProc)) : "")
+                                                     + ((EAMIsInit(&mCAS3D.mMMVII_RootPath)) ? (BLANK + "RootPath=" + ToString(mCAS3D.mMMVII_RootPath)) : "")
 						     + BLANK + "MMInit=MMV1";
             aLCom.push_back(aComTmp);
 
