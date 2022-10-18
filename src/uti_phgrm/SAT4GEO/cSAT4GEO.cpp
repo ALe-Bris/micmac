@@ -235,7 +235,8 @@ std::string cCommonAppliSat3D::ComParamMatch()
 	    if (EAMIsInit(&mMMVII_SzTile))  aCom += BLANK + "MMVII_SzTile=" + ToString(mMMVII_SzTile);
 	    if (EAMIsInit(&mMMVII_SzOverL)) aCom += BLANK + "MMVII_SzOverL=" + ToString(mMMVII_SzOverL);
         if (EAMIsInit(&mMMVII_NbProc))  aCom += BLANK + "MMVII_NbProc=" + ToString(mMMVII_NbProc);
-        if (EAMIsInit(&mMMVII_RootPath))  aCom += BLANK + "MMVII_RootPath=" + ToString(mMMVII_RootPath);
+        if (EAMIsInit(&mMMVII_RootPath))  aCom += BLANK + "MMVII_RootPath=" +
+            mMMVII_RootPath;
     }
     else
     {
@@ -610,7 +611,7 @@ cAppliMM1P::cAppliMM1P(int argc, char** argv)
                                                      + ((EAMIsInit(&mCAS3D.mMMVII_SzTile)) ? (BLANK + "SzTile=" + ToString(mCAS3D.mMMVII_SzTile)) : "") 
 	                                                 + ((EAMIsInit(&mCAS3D.mMMVII_SzOverL))? (BLANK + "SzOverL=" + ToString(mCAS3D.mMMVII_SzOverL)) : "")
                                                      + ((EAMIsInit(&mCAS3D.mMMVII_NbProc)) ? (BLANK + "NbProc=" + ToString(mCAS3D.mMMVII_NbProc)) : "")
-                                                     + ((EAMIsInit(&mCAS3D.mMMVII_RootPath)) ? (BLANK + "RootPath=" + ToString(mCAS3D.mMMVII_RootPath)) : "")
+                                                     + ((EAMIsInit(&mCAS3D.mMMVII_RootPath)) ? (BLANK + "RootPath=" + mCAS3D.mMMVII_RootPath) : "")
 						     + BLANK + "MMInit=MMV1";
             aLCom.push_back(aComTmp);
 
