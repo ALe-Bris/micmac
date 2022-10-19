@@ -399,7 +399,7 @@ class cMMVII_Appli : public cMMVII_Ap_NameManip,
     protected :
 
         /// Constructor, essenntially memorize command line and specifs
-        cMMVII_Appli(const std::vector<std::string> & aVArgcv, const cSpecMMVII_Appli &,tVSPO=EmptyVSPO);
+        cMMVII_Appli(const std::vector<std::string> & aVArgcv, const cSpecMMVII_Appli &,tVSPO=EmptyVSPO, const std::string& installpath="");
         /// Second step of construction, parse the command line and initialize values
 
         const tNameSet &                         MainSet0() const;         ///< MainSet(0) , 
