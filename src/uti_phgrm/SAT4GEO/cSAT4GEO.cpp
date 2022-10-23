@@ -64,7 +64,6 @@ cCommonAppliSat3D::cCommonAppliSat3D() :
 	mMMVII_SzTile(Pt2di(1024,1024)),
     mMMVII_SzOverL(Pt2di(50,30)),
         mMMVII_NbProc(8),
-    mMMVII_RootPath(""),
         //mZoomF(1),
 	//mHasVeg(true),
 	//mHasSBG(false),
@@ -131,8 +130,7 @@ cCommonAppliSat3D::cCommonAppliSat3D() :
             << EAM(mMMVII_ImName,"MMVII_ImName",true,"Image matching: if MMVII==1, name of depth map")
             << EAM(mMMVII_SzTile,"MMVII_SzTile",true,"Image matching: if MMVII==1, Size of tiling used to split computation, Def=[1024,1024]")
             << EAM(mMMVII_SzOverL,"MMVII_SzOverL",true,"Image matching: if MMVII==1, Size of overlap between tiles ,[Default=[50,30]")
-            << EAM(mMMVII_NbProc,"MMVII_NbProc",true,"Image matching: if MMVII==1, Nb of cores for II processing in MMVII, Def=8")
-            << EAM(mMMVII_RootPath,"MMVII_RootPath","","root path to MMVII folder, default: compilation folder micmac/MMVII");
+    << EAM(mMMVII_NbProc,"MMVII_NbProc",true,"Image matching: if MMVII==1, Nb of cores for II processing in MMVII, Def=8");
 
 	*mArgFuse
 			<< EAM(mEZA,"EZA",true,"Image matching: Export Z absolute (Def=false)")
@@ -235,8 +233,6 @@ std::string cCommonAppliSat3D::ComParamMatch()
 	    if (EAMIsInit(&mMMVII_SzTile))  aCom += BLANK + "MMVII_SzTile=" + ToString(mMMVII_SzTile);
 	    if (EAMIsInit(&mMMVII_SzOverL)) aCom += BLANK + "MMVII_SzOverL=" + ToString(mMMVII_SzOverL);
         if (EAMIsInit(&mMMVII_NbProc))  aCom += BLANK + "MMVII_NbProc=" + ToString(mMMVII_NbProc);
-        if (EAMIsInit(&mMMVII_RootPath))  aCom += BLANK + "MMVII_RootPath=" +
-            mMMVII_RootPath;
     }
     else
     {
@@ -611,7 +607,6 @@ cAppliMM1P::cAppliMM1P(int argc, char** argv)
                                                      + ((EAMIsInit(&mCAS3D.mMMVII_SzTile)) ? (BLANK + "SzTile=" + ToString(mCAS3D.mMMVII_SzTile)) : "") 
 	                                                 + ((EAMIsInit(&mCAS3D.mMMVII_SzOverL))? (BLANK + "SzOverL=" + ToString(mCAS3D.mMMVII_SzOverL)) : "")
                                                      + ((EAMIsInit(&mCAS3D.mMMVII_NbProc)) ? (BLANK + "NbProc=" + ToString(mCAS3D.mMMVII_NbProc)) : "")
-                                                     + ((EAMIsInit(&mCAS3D.mMMVII_RootPath)) ? (BLANK + "RootPath=" + mCAS3D.mMMVII_RootPath) : "")
 						     + BLANK + "MMInit=MMV1";
             aLCom.push_back(aComTmp);
 
@@ -619,11 +614,20 @@ cAppliMM1P::cAppliMM1P(int argc, char** argv)
             std::string Masq1Name = mCAS3D.mICNM->Assoc1To1("Key-Assoc-Std-Masq-Image",aNI1,true);
             std::string Masq2Name = mCAS3D.mICNM->Assoc1To1("Key-Assoc-Std-Masq-Image",aNI2,true);
 
+            //on parallelise?
+            int ParalT=1;
+            if (EAMIsInit(&mCAS3D.mMMVII_NbProc))
+            {
+                if (mCAS3D.mMMVII_NbProc<=1) ParalT = 0;
+            }
+            
 			std::string aComOC = "MMVII DenseMatchEpipEval" + BLANK + aNI1 + BLANK + aNI2 
                                + BLANK + (*aDir_it) + mCAS3D.mMMVII_ImName + " true "
                                + BLANK + "HiddenMask=" + (*aDir_it) + NameOccluMask()
                                + BLANK + "ImCorrel=" + (*aDir_it) + NameCorrel()
-                               + BLANK + "Masq1=" + Masq1Name + BLANK + "Masq2=" + Masq2Name;
+                               + BLANK + "Masq1=" + Masq1Name + BLANK + "Masq2=" + Masq2Name
+                               + BLANK + "ParalT=" + ToString(ParalT);
+
             aLCom.push_back(aComOC);
 
             (*aDir_it++);
@@ -651,7 +655,8 @@ cAppliMM1P::cAppliMM1P(int argc, char** argv)
             std::cout << "SUBCOM= " << iCmd << "\n";
     }
 
-
+  // ce serait plus propre si c'etait aussi une commande a part antiere, sinon on ne peut pas reproduire
+  // le traitement pas a pas pour isoler un bog
     if (mCAS3D.mExe) {
     // create MMNuageLast.xml for deep-learning correlation
     if (mCAS3D.mMMVII && (mCAS3D.mMMVII_mode=="PSMNet"))
@@ -1174,10 +1179,9 @@ int CPP_TransformGeom_main(int argc, char ** argv)
     //if MMVII create the NuageLast.xml file (if it does not exist)
     if (aMMVII && (!ELISE_fp::exist_file(aNuageName)))
     {
-	   ELISE_ASSERT(false,"MMNuageLast.xml missing")
+        std::string error =  aNuageName + " missing";
+        ELISE_ASSERT(false, error.c_str())
     }
-
-
 
     /* Read the depth map */
     cXML_ParamNuage3DMaille  aNuageIn = StdGetObjFromFile<cXML_ParamNuage3DMaille>
