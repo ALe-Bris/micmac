@@ -5,9 +5,7 @@
 
   Try to put together files having something in common, not always easy ...
 */
-namespace MMVII {
-  extern std::string DirBin2007;
-};
+
 
 // Header standar c++
 #include "memory.h"
@@ -26,6 +24,9 @@ namespace MMVII {
 #include <optional>
 #include <cmath>
 
+namespace MMVII {
+  extern std::string DirBin2007;
+};
 
 //========== LIB EXTEN==============
 
