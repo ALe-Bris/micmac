@@ -24,10 +24,6 @@
 #include <optional>
 #include <cmath>
 
-namespace MMVII {
-  extern std::string DirBin2007;
-};
-
 //========== LIB EXTEN==============
 
 
