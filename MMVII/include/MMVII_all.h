@@ -6,7 +6,7 @@
   Try to put together files having something in common, not always easy ...
 */
 namespace MMVII {
-  extern static std::string DirBin2007;
+  extern std::string DirBin2007;
 };
 
 // Header standar c++
