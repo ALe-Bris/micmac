@@ -216,6 +216,17 @@ void cAppliExtractCodeTarget::MarkDCT()
              mImVisu.SetRGBrectWithAlpha(aDCT->Pix0(), 1, aCoul, 0.0);
           }
 
+          /*
+
+          if (aDCT->mState == eResDCT::Ok) StdOut()        << "OK "        << aDCT->mPt.x() << " " << aDCT->mPt.y() << "\n";
+          if (aDCT->mState == eResDCT::Divg) StdOut()      << "DIVG "      << aDCT->mPt.x() << " " << aDCT->mPt.y() << "\n";
+          if (aDCT->mState == eResDCT::LowSym) StdOut()    << "LOWSYM "    << aDCT->mPt.x() << " " << aDCT->mPt.y() << "\n";
+          if (aDCT->mState == eResDCT::LowBin) StdOut()    << "LOWBIN "    << aDCT->mPt.x() << " " << aDCT->mPt.y() << "\n";
+          if (aDCT->mState == eResDCT::LowRad) StdOut()    << "LOWRAD "    << aDCT->mPt.x() << " " << aDCT->mPt.y() << "\n";
+          if (aDCT->mState == eResDCT::LowSymMin) StdOut() << "LOWSYMMIN " << aDCT->mPt.x() << " " << aDCT->mPt.y() << "\n";
+
+          */
+
      }
 }
 
@@ -283,9 +294,12 @@ void  cAppliExtractCodeTarget::DoExtract(){
             binary_code.at(code.at(i)) = 1;
             sum += pow(2, code.at(i));
         }
-       // CODES[sum] = spec.NameOfNum(aNum);   // Attention !!!!!
-        CODES[aNum] = spec.NameOfNum(aNum);
-        StdOut() << sum << " " << CODES[sum] << " " << binary_code << " " << code << " " << aNum << "\n";
+
+        if (spec.mModeFlight){
+            CODES[aNum] = spec.NameOfNum(aNum);
+        }else{
+             CODES[sum] = spec.NameOfNum(aNum);   // Attention : problème entre ces deux lignes !!!!!
+        }
     }
 
 
@@ -297,6 +311,12 @@ void  cAppliExtractCodeTarget::DoExtract(){
      // mNbPtsIm = aDIm.Sz().x() * aDIm.Sz().y();
 
      // [1]   Extract point that are extremum of symetricity
+
+
+     // ------------------------------------------------------------------------------------------------------------------
+     // New version
+     // ------------------------------------------------------------------------------------------------------------------
+
 
          //    [1.1]   extract integer pixel
      cIm2D<tREAL4>  aImSym = ImSymetricity(false,aIm,mRayMinCB*0.4,mRayMinCB*0.8,0);  // compute fast symetry
@@ -318,50 +338,61 @@ void  cAppliExtractCodeTarget::DoExtract(){
          //
      ShowStats("Init ");
 
+
      //   ====   Symetry filters ====
-     for (auto & aDCT : mVDCT)
-     {
-        if (aDCT->mState == eResDCT::Ok)
-        {
+     for (auto & aDCT : mVDCT){
+        if (aDCT->mState == eResDCT::Ok){
            aDCT->mSym = aImSym.DIm().GetV(aDCT->Pix());
-           if (aDCT->mSym>mTHRS_Sym)
+           if (aDCT->mSym > mTHRS_Sym){
               aDCT->mState = eResDCT::LowSym;
+           }
         }
      }
      ShowStats("LowSym");
 
 
      cParamAllFilterDCT aGlobParam;
-     //   ====   Binarity filters ====
-        SelectOnFilter(cFilterDCT<tREAL4>::AllocBin(aIm,aGlobParam),false,mTHRS_Bin,eResDCT::LowBin);
-    //    SelectOnFilter(cFilterDCT<tREAL4>::AllocBin(aIm,mRayMinCB*0.7,mRayMinCB*1.4),false,1.7,eResDCT::LowBin);
 
 
-     //   ====   Radial filters ====
-     //SelectOnFilter(cFilterDCT<tREAL4>::AllocRad(mImGrad,3.5,5.5,1.0),false,0.5,eResDCT::LowRad);
+     //   ==== Binarity filters ====
+     SelectOnFilter(cFilterDCT<tREAL4>::AllocBin(aIm,aGlobParam),false,mTHRS_Bin,eResDCT::LowBin);
+
+
+     //   ==== Radial filters ====
      SelectOnFilter(cFilterDCT<tREAL4>::AllocRad(mImGrad,aGlobParam),false,0.9,eResDCT::LowRad);
 
 
-     // Min of symetry
+     //   ==== Min of symetry ====
      SelectOnFilter(cFilterDCT<tREAL4>::AllocSym(aIm,aGlobParam),true,0.8,eResDCT::LowSym);
 
-     // Min of bin
-    // SelectOnFilter(cFilterDCT<tREAL4>::AllocBin(aIm,mRayMinCB*0.4,mRayMinCB*0.8),true,mTHRS_Bin,eResDCT::LowBin);
 
      mVDCTOk.clear();
 
-     for (auto aPtrDCT : mVDCT)
-     {
-          // if (aPtrDCT->mGT)
-          if (aPtrDCT->mState == eResDCT::Ok)
-          {
-             if (!TestDirDCT(*aPtrDCT,APBI_Im(), mRayMinCB, 1.0))
-                aPtrDCT->mState = eResDCT::BadDir;
-             else
-                mVDCTOk.push_back(aPtrDCT);
-          }
 
+
+    //   TEST REPRESENTATION CANDIDATS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   /* for (auto & aDCT : mVDCT){
+
+        if (aDCT->mState == eResDCT::Ok){
+            mImVisu.SetRGBrectWithAlpha(aDCT->Pix0(), 1, cRGBImage::Magenta, 0.0);
+        }
+     }*/
+
+     for (auto aPtrDCT : mVDCT){
+          // if (aPtrDCT->mGT)
+
+          mImVisu.SetRGBrectWithAlpha(aPtrDCT->Pix0(), 1, cRGBImage::Magenta, 0.0);
+
+          if (aPtrDCT->mState == eResDCT::Ok){
+             if (!TestDirDCT(*aPtrDCT,APBI_Im(), mRayMinCB, 1.0)){
+                aPtrDCT->mState = eResDCT::BadDir;
+            }else{
+                mVDCTOk.push_back(aPtrDCT);
+            }
+          }
      }
+
+
      ShowStats("ExtractDir");
      StdOut()  << "MAINTAINED " << mVDCTOk.size() << "\n";
 
@@ -590,12 +621,12 @@ void  cAppliExtractCodeTarget::DoExtract(){
         // --------------------------------------------------------------------------------
         std::string name_file = "target_" + chaine + ".tif";
         if (chaine == "NA"){
+            continue; // To avoid printing failures
             name_file = "failure_" + std::to_string(counter) + ".tif";
         }
 
         StdOut() << "  ->  " << name_file << "\n";
         // --------------------------------------------------------------------------------
-
 
 
         // --------------------------------------------------------------
@@ -655,7 +686,7 @@ void  cAppliExtractCodeTarget::DoExtract(){
     }
 
 
- //    MarkDCT() ;
+    // MarkDCT() ;
 
      mImVisu.ToFile("VisuCodeTarget.tif");
 
@@ -1102,8 +1133,8 @@ int cAppliExtractCodeTarget::decodeTarget(tDataImT & aDImT, double thw, double t
             debug += (bit ? std::string("0 "):std::string("1 "));
 
             // Image modification (at the end!)
-            aDImT.SetV(cPt2di(xc_code     ,yc_code    ), 255.0);
-            aDImT.SetV(cPt2di(xc_code_opp ,yc_code_opp), 255.0);
+            markImage(aDImT, cPt2di(xc_code    , yc_code)    , 5, bit?0:255);
+            markImage(aDImT, cPt2di(xc_code_opp, yc_code_opp), 5, bit?0:255);
 
         }
     }else {
@@ -1227,8 +1258,6 @@ if (mTest){
         StdOut() <<  ((std::abs(parameter[2] - solution[2]) < std::abs(1e-6*parameter[2]))? "OK" : "NOT OK") << "\n";
         StdOut() <<  ((std::abs(parameter[3] - solution[3]) < std::abs(1e-6*parameter[3]))? "OK" : "NOT OK") << "\n";
         StdOut() <<  ((std::abs(parameter[4] - solution[4]) < std::abs(1e-6*parameter[4]))? "OK" : "NOT OK") << "\n";
-
-
 
 
         return 0;

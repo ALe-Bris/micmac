@@ -96,8 +96,9 @@ double TestDir(const cNS_CodedTarget::cGeomSimDCT & aGT,const cNS_CodedTarget::c
 }
 
 
-template <class Type>  bool cExtractDir<Type>::CalcDir(tDCT & aDCT)
-{
+template <class Type>  bool cExtractDir<Type>::CalcDir(tDCT & aDCT){
+
+
      mPDCT = & aDCT;  // memorize as internal variables
      std::vector<float>  aVVals;  // vectors of value of pixel , here to avoir reallocation
      std::vector<bool>   aVIsW;   // vector of boolean IsWhite ?  / IsBlack ?
@@ -143,8 +144,12 @@ template <class Type>  bool cExtractDir<Type>::CalcDir(tDCT & aDCT)
                  aSomDir[aVIsW[aKp]] += aDir;  // acculate the direction in black or whit transition
              }
          }
+
          // if we dont have exactly 4 transition, there is someting wrong ...
-         if (aCpt!=4 )  return false;
+         if (aCpt!=4 )  {
+            return false;
+        }
+
      }
 
      // now recover from the tensor one of its two vectors (we have no control one which)
@@ -255,17 +260,33 @@ template class cExtractDir<tREAL4>;
 
 bool TestDirDCT(cNS_CodedTarget::cDCT & aDCT,cIm2D<tREAL4> anIm,double aRayCB, double size_factor){
 
+/*
+    bool test1 = abs(aDCT.Pix0().x() - 4493) < 2;
+    bool test2 = abs(aDCT.Pix0().y() - 163) < 2;
+    if (!test1 || !test2){
+        return false;
+    }
+*/
+
+
     cExtractDir<tREAL4>  anED(anIm,aRayCB*0.4,aRayCB*0.8*size_factor);
     bool Ok = anED.CalcDir(aDCT);
+
+
     if (!Ok) return false;
+
 
     anED.ScoreRadiom(aDCT) ;
 
-//    double th1 = 0.50;
-//    double th2 = 0.50;
+      double th1 = 0.50;
+      double th2 = 0.50;
 
-    double th1 = 0.12;
-    double th2 = 0.85;
+  //  double th1 = 0.12;
+  //  double th2 = 0.85;
+
+   // StdOut() << " Test 1 " << aDCT.mScRadDir  << " " <<  th1 << "\n";
+   // StdOut() << " Test 2 " << aDCT.mCorMinDir << " " <<  th2 << "\n";
+
 
     return (aDCT.mScRadDir < th1) && (aDCT.mCorMinDir> th2) ;
 
