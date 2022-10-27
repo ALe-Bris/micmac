@@ -427,6 +427,11 @@ void cMMVII_Appli::InitParam()
       return;
   }
 
+  if (mArgc > 1 && mArgv[1].front() == 'v') {
+      mModeHelp = true;                     // FIXME: REMOVE ME. to not execute exe()
+      GenerateArgsDesc();
+      return;
+  }
 
   int aNbObl = mArgObl.size(); //  Number of mandatory argument expected
   int aNbArgGot = 0; // Number of  Arg received untill now
@@ -878,6 +883,112 @@ void cMMVII_Appli::LogCommandOut(const std::string & aName,bool MainLogFile)
 
 
 
+static std::string JsonEscaped(const std::string& s)
+{
+    std::string res;
+
+    for (const auto& c : s) {
+        switch (c) {
+        case '\b' : res += "\\b"; break;
+        case '\f' : res += "\\f"; break;
+        case '\n' : res += "\\n"; break;
+        case '\r' : res += "\\r"; break;
+        case '\t' : res += "\\t"; break;
+        case '"'  : res += "\\\""; break;
+        case '\\' : res += "\\\\"; break;
+        default   :  res += c;
+        }
+    }
+    return res;
+}
+
+void cMMVII_Appli::GenerateOneArgDesc(cCollecSpecArg2007& aSpecArgs, bool aOptional)
+{
+    if (aOptional)
+        StdOut()     <<  "    \"optional\": [";
+    else
+        StdOut()     <<  "    \"mandatory\": [";
+
+    bool first = true;
+    for (const auto & Arg : aSpecArgs.Vec())
+    {
+        if (Arg->HasType(eTA2007::Internal))
+            continue;
+
+        if (first)
+            first = false;
+        else
+            StdOut() << ",";
+
+        std::vector<std::string> semantic;
+        std::vector<std::string> allowed;
+        std::string range;
+        std::string vectorSize;
+        for (const auto& a : Arg->SemPL()) {
+            if (a.Type() < eTA2007::AddCom) {
+                semantic.push_back(E2Str(a.Type()));
+            }
+            if (a.Type() == eTA2007::AllowedValues) {
+                allowed = SplitString(a.Aux(),",");
+            }
+            if (a.Type() == eTA2007::Range) {
+                range = a.Aux();
+            }
+            if (a.Type() == eTA2007::ISizeV) {
+                vectorSize = a.Aux();
+            }
+        }
+
+        StdOut()     << "\n      {\n";
+        if (aOptional) {
+            std::string level = Arg->HasType(eTA2007::Global) ? "global" : Arg->HasType(eTA2007::Tuning) ? "tuning" : "normal";
+            StdOut() << "          \"name\": \"" << JsonEscaped(Arg->Name()) << "\",\n";
+            StdOut() << "          \"level\": \"" << level << "\",\n";
+        }
+        StdOut()     << "          \"type\": \"" << JsonEscaped(Arg->NameType()) << "\"";
+        if (semantic.size()) {
+            StdOut() << ",\n          \"semantic\": [";
+            for (unsigned i=0; i<semantic.size(); i++) {
+                StdOut() << "\"" << semantic[i] << "\"";
+                if (i < semantic.size()-1)
+                    StdOut() << ",";
+            }
+            StdOut() << "]";
+        }
+        if (allowed.size()) {
+            StdOut() << ",\n          \"allowed\" : [";
+            for (unsigned i=0; i<allowed.size(); i++) {
+                StdOut() << "\"" << allowed[i] << "\"";
+                if (i < allowed.size()-1)
+                    StdOut() << ",";
+            }
+            StdOut()     << "]";
+        }
+        if (range.size())
+            StdOut() << ",\n          \"range\" : \"" << range << "\"";
+        if (vectorSize.size())
+            StdOut() << ",\n          \"vsize\" : \"" << vectorSize << "\"";
+        if (Arg->HasType((eTA2007::HDV)))
+            StdOut() << ",\n          \"default\": \"" << JsonEscaped(Arg->NameValue()) << "\"";
+        if (Arg->Com().size())
+            StdOut() << ",\n          \"comment\": \""<< JsonEscaped(Arg->Com()) << "\"";
+        StdOut()     << "\n      }";
+    }
+    StdOut()             << "\n    ]";
+}
+
+void cMMVII_Appli::GenerateArgsDesc()
+{
+   StdOut() <<  "  {\n";
+   StdOut() <<  "    \"name\": \"" << JsonEscaped(mSpecs.Name()) << "\",\n";
+
+   StdOut() <<  "    \"comment\": \"" << JsonEscaped(mSpecs.Comment()) << "\",\n";
+   StdOut() <<  "    \"source\": \"" << JsonEscaped(mSpecs.NameFile()) << "\",\n";
+   GenerateOneArgDesc(mArgObl,false);
+   StdOut() <<  ",\n";
+   GenerateOneArgDesc(mArgFac,true);
+   StdOut() <<  "\n  }\n";
+}
 
     // ========== Help ============
 

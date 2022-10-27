@@ -38,6 +38,9 @@ int main(int argc, char ** argv)
    {
       std::string aNameCom = argv[1];
 
+      if (! aNameCom.empty() && aNameCom.front() == 'v')
+          aNameCom = aNameCom.substr(1);
+
       // Recherche la specif correspondant au nom de commande
       cSpecMMVII_Appli*  aSpec = cSpecMMVII_Appli::SpecOfName(aNameCom,true);
 

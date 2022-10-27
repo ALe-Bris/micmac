@@ -327,7 +327,6 @@ class cMMVII_Appli : public cMMVII_Ap_NameManip,
         /// External call sys : use GlobalSysCall + register the command in log files
         int ExtSysCall(const std::string & aCom, bool SVP);
 
-
         static bool WithWarnings();
         /// MMVII call itself
         int   ExeCallMMVII(const cSpecMMVII_Appli & aCom,const cColStrAObl&,const cColStrAOpt&,bool ByLineCom=true); 
@@ -442,6 +441,9 @@ class cMMVII_Appli : public cMMVII_Ap_NameManip,
                                    bool Separate,
                                    const cColStrAOpt &  aLSubst = cColStrAOpt::Empty
                                  ); ///< MMVII reccall the same command itself
+
+        void GenerateArgsDesc();
+        void GenerateOneArgDesc(cCollecSpecArg2007& aSpecArgs, bool aOptional);
 
         void                                      GenerateHelp(); ///< In Help mode print the help
         void PrintAdditionnalComments(tPtrArg2007 anArg); ///< Print the optional comm in mode glob help
