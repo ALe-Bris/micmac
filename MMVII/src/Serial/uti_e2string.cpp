@@ -63,7 +63,7 @@ template <class TypeEnum> class cE2Str
          std::string aRes;
          for (const auto & it : mE2S)
          {
-             if (aRes!="") aRes += " ";
+             if (aRes!="") aRes += ",";
              aRes += it.second;
          }
          return aRes;
@@ -121,7 +121,7 @@ template <> std::vector<TypeEnum> SubOfPat<TypeEnum>(const std::string & aPat,bo
 }\
 template <> tSemA2007  AC_ListVal<TypeEnum>()\
 {\
-   return {eTA2007::AddCom,"Allowed values for this enum:{"+StrAllVall<TypeEnum>()+"}"};\
+   return {eTA2007::AllowedValues,StrAllVall<TypeEnum>()};\
 }\
 
 
@@ -173,6 +173,7 @@ template<> cE2Str<eTA2007>::tMapE2Str cE2Str<eTA2007>::mE2S
                 {eTA2007::Output,"Out"},
                 {eTA2007::OptionalExist,"OptEx"},
                 {eTA2007::AddCom,"AddCom"},
+                {eTA2007::AllowedValues,"Allowed"},
                 {eTA2007::Internal,"##Intern"},
                 {eTA2007::Tuning,"##Tune"},
                 {eTA2007::Global,"##Glob"},
